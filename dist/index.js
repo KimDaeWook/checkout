@@ -1401,6 +1401,7 @@ function getFetchUrl(settings) {
 exports.getFetchUrl = getFetchUrl;
 function getServerUrl(settings) {
     // todo: remove GITHUB_URL after support for GHES Alpha is no longer needed
+	console.log("host",settings.host);
     return new url_1.URL(settings.host ||
         process.env['GITHUB_SERVER_URL'] ||
         process.env['GITHUB_URL'] ||
