@@ -1389,7 +1389,7 @@ const url_1 = __webpack_require__(835);
 function getFetchUrl(settings) {
     assert.ok(settings.repositoryOwner, 'settings.repositoryOwner must be defined');
     assert.ok(settings.repositoryName, 'settings.repositoryName must be defined');
-    const serviceUrl = settings.host ? new url_1.URL(settings.host) : getServerUrl();
+    const serviceUrl = getServerUrl(settings);
     const encodedOwner = encodeURIComponent(settings.repositoryOwner);
     const encodedName = encodeURIComponent(settings.repositoryName);
     if (settings.sshKey) {
@@ -1399,9 +1399,10 @@ function getFetchUrl(settings) {
     return `${serviceUrl.origin}/${encodedOwner}/${encodedName}`;
 }
 exports.getFetchUrl = getFetchUrl;
-function getServerUrl() {
+function getServerUrl(settings) {
     // todo: remove GITHUB_URL after support for GHES Alpha is no longer needed
-    return new url_1.URL(process.env['GITHUB_SERVER_URL'] ||
+    return new url_1.URL(settings.host ||
+        process.env['GITHUB_SERVER_URL'] ||
         process.env['GITHUB_URL'] ||
         'https://github.com');
 }
@@ -5418,7 +5419,7 @@ class GitAuthHelper {
         this.git = gitCommandManager;
         this.settings = gitSourceSettings || {};
         // Token auth header
-        const serverUrl = urlHelper.getServerUrl();
+        const serverUrl = urlHelper.getServerUrl(this.settings);
         this.tokenConfigKey = `http.${serverUrl.origin}/.extraheader`; // "origin" is SCHEME://HOSTNAME[:PORT]
         const basicCredential = Buffer.from(`x-access-token:${this.settings.authToken}`, 'utf8').toString('base64');
         core.setSecret(basicCredential);

@@ -8,7 +8,7 @@ export function getFetchUrl(settings: IGitSourceSettings): string {
     'settings.repositoryOwner must be defined'
   )
   assert.ok(settings.repositoryName, 'settings.repositoryName must be defined')
-  const serviceUrl = settings.host ? new URL(settings.host) : getServerUrl()
+  const serviceUrl = getServerUrl(settings)
   const encodedOwner = encodeURIComponent(settings.repositoryOwner)
   const encodedName = encodeURIComponent(settings.repositoryName)
   if (settings.sshKey) {
@@ -19,9 +19,10 @@ export function getFetchUrl(settings: IGitSourceSettings): string {
   return `${serviceUrl.origin}/${encodedOwner}/${encodedName}`
 }
 
-export function getServerUrl(): URL {
+export function getServerUrl(settings: IGitSourceSettings): URL {
   // todo: remove GITHUB_URL after support for GHES Alpha is no longer needed
   return new URL(
+    settings.host ||
     process.env['GITHUB_SERVER_URL'] ||
       process.env['GITHUB_URL'] ||
       'https://github.com'
