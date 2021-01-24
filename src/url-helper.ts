@@ -8,7 +8,7 @@ export function getFetchUrl(settings: IGitSourceSettings): string {
     'settings.repositoryOwner must be defined'
   )
   assert.ok(settings.repositoryName, 'settings.repositoryName must be defined')
-  const serviceUrl = getServerUrl()
+  const serviceUrl = settings.host ? new URL(settings.host) : getServerUrl()
   const encodedOwner = encodeURIComponent(settings.repositoryOwner)
   const encodedName = encodeURIComponent(settings.repositoryName)
   if (settings.sshKey) {

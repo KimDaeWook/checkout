@@ -23,6 +23,11 @@ export interface IGitSourceSettings {
    * The commit to checkout
    */
   commit: string
+  
+  /**
+   * The repository host
+   */
+  host: string
 
   /**
    * Indicates whether to clean the repository
