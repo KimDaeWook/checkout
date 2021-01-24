@@ -49,6 +49,8 @@ export function getInputs(): IGitSourceSettings {
       `Repository path '${result.repositoryPath}' is not under '${githubWorkspacePath}'`
     )
   }
+  
+  result.host = core.getInput('host')
 
   // Workflow repository?
   const isWorkflowRepository =

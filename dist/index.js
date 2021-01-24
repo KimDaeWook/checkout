@@ -1401,7 +1401,6 @@ function getFetchUrl(settings) {
 exports.getFetchUrl = getFetchUrl;
 function getServerUrl(settings) {
     // todo: remove GITHUB_URL after support for GHES Alpha is no longer needed
-	console.log("host",settings.host);
     return new url_1.URL(settings.host ||
         process.env['GITHUB_SERVER_URL'] ||
         process.env['GITHUB_URL'] ||
@@ -14549,6 +14548,7 @@ function getInputs() {
     if (!(result.repositoryPath + path.sep).startsWith(githubWorkspacePath + path.sep)) {
         throw new Error(`Repository path '${result.repositoryPath}' is not under '${githubWorkspacePath}'`);
     }
+    result.host = core.getInput('host');
     // Workflow repository?
     const isWorkflowRepository = qualifiedRepository.toUpperCase() ===
         `${github.context.repo.owner}/${github.context.repo.repo}`.toUpperCase();
